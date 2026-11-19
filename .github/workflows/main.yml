@@ -1,0 +1,16 @@
+name: Docker CI-CD
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker Build
+        run: docker build -t cloud-lab-2-app .
+      - name: Container Test
+        run: |
+          docker run -d -p 8080:80 --name test-app cloud-lab-2-app
+          sleep 2
+          curl -I http://localhost:8080
